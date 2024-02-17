@@ -73,7 +73,6 @@ void tree :: make_tree(struct node** root)
         }
         i--;
     }
-   // *root=pop();
 }
 
 int tree :: display(struct node* root, int space)
@@ -171,8 +170,6 @@ int main()
             default:cout<<"Invalid Choice, :(";
         }
     }while(choice!=4);
-
-
 
     return 0;
 }
