@@ -6,6 +6,7 @@ struct node
     char data;
     struct node * left;
     struct node * right;
+    bool visited;
 };
 
 class tree{
@@ -47,6 +48,7 @@ void tree :: make_tree(struct node** root)
             nn->data = exp[i];
             nn->right=NULL;
             nn->left=NULL;
+            nn->visited=0;
             push(nn);
         }
         else // Assuming no parenthesis expression.
@@ -57,6 +59,7 @@ void tree :: make_tree(struct node** root)
                 (*root)->data=exp[i];
                 (*root)->left=pop();
                 (*root)->right=pop();
+                (*root)->visited=0;
             }
             else
             {
@@ -64,6 +67,7 @@ void tree :: make_tree(struct node** root)
                 nn->data=exp[i];
                 nn->left=pop();
                 nn->right=pop();
+                nn->visited=0;
                 push(nn);
             }
         }
@@ -110,26 +114,65 @@ struct node* tree :: pop()
 
 void tree :: postfix(struct node* root)
 {
-    // cout<<endl<<top;
-    // if(isEmpty())
-    // {
-    //     cout<<"\nHeko world";
-    // }
-     //cout<<root->data<<endl;
-    struct node* temp=root;
-    push(root);
-    while(!isEmpty())
-    {
-        
+    struct node* temp=NULL;
+    cout<<"\n\nPOSTFIX EXPRESSION :-  ";
+    do{
+        temp=root;
+        while(temp->left!=NULL && temp->left->visited==0)
+        {     
+           temp=temp->left;  
+        }
+        while(temp->right!=NULL && temp->right->visited==0)
+        { 
+            if(temp->left!=NULL && temp->left->visited==0)
+            {
+                temp=temp->left;
+            }
+            else
+            {   
+                temp=temp->right;   
+            }
+        }
+        if(temp->visited == 0)
+        {
+            cout<<temp->data<<"  ";
+            temp->visited = 1;
+        } 
+    }while(temp != root);    
 }
 
 int main()
 {
     struct node* root=NULL;
     tree t1;
-    t1.make_tree(&root);
-    t1.display(root, 0);
-    t1.postfix(root);
+    int choice;
+    do{
+        cout<<"\n--------**BINARY TREE TRAVERSAL**-------------\n";
+        cout<<"\n1.Create an Expression Tree.";
+        cout<<"\n2.Display an Exression Tree. ";
+        cout<<"\n3. Find Postfix Expression using Tree Traversal.";
+        cout<<"\n4.Exit";
+        cout<<"\nEnter your choice :";
+        cin>>choice;
+        switch(choice)
+        {
+            case 1: 
+                t1.make_tree(&root);
+                break;
+            case 2:
+                t1.display(root, 0); // Argument 0 is passed for counting spaces needed in Between.
+                break;
+            case 3:
+                t1.postfix(root);
+                break;
+            case 4:
+                cout<<"\n----*Thank You*-------"<<endl;
+                break;
+            default:cout<<"Invalid Choice, :(";
+        }
+    }while(choice!=4);
+
+
 
     return 0;
 }
