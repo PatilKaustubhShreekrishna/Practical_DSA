@@ -41,7 +41,7 @@ void tree :: make_tree(struct node** root)
     
     while(exp[i+1]!= '\0')
         i++;
-    while(exp[i] != -1)
+    while(i != -1)
     {
         if(exp[i]>= 'a' && exp[i]<= 'z')
         {
